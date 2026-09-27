@@ -453,15 +453,25 @@ if st.sidebar.button("Run Simulation"):
 
 if SCENARIO_FILE.exists():
 
-    st.subheader(
-        "Previous Simulations"
-    )
+    try:
 
-    history = pd.read_csv(
-        SCENARIO_FILE
-    )
+        history = pd.read_csv(
+            SCENARIO_FILE
+        )
 
-    st.dataframe(
-        history.tail(10),
-        use_container_width=True
-    )
+        if not history.empty:
+
+            st.subheader(
+                "Previous Simulations"
+            )
+
+            st.dataframe(
+                history.tail(10),
+                use_container_width=True
+            )
+
+    except pd.errors.EmptyDataError:
+
+        st.info(
+            "No simulation history available yet."
+        )
